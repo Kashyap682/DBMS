@@ -1,0 +1,468 @@
+SQL> create table client(clientno varchar2(6),name varchar2(20),city varchar2(15),pincode number(8),state varchar2(15),baldue number(10,5));
+
+Table created.
+
+SQL> create table product(productno varchar2(6),description varchar2(15),profitpercent number(4,2),unitmeasure varchar2(10),qtyonhand number(8),reorderlvl number(8),sellprice number(8,2),costprice number(8,2));
+
+Table created.
+
+SQL> create table salesman(salesmanno varchar2(6),salesmanname varchar2(20),address1 varchar2(30),address2 varchar2(30),city varchar2(20),pincode number(8),state varchar2(20),salamt number(8,2),tgttoget number(6,2),ytdsales number(6,2),remarks varchar2(60));
+
+Table created.
+
+SQL> create table sales_order(orderno varchar2(6),clientno varchar2(6),orderdate date,salesmanno varchar2(6),delaytype char(1),billyn char(1),delaydate date,orderstatus varchar2(10));
+
+Table created.
+
+SQL> create table sales_order_details(orderno varchar2(6),productno varchar2(6),qtyordered number(8),productrate number(10, 2));
+
+Table created.
+
+SQL> insert into client values('C01','Ivan Bayross','Mumbai',400054,'Maharashtra',15000);
+
+1 row created.
+
+SQL> insert into client values('C02','Mamta Shah','Chennai',780001,'Tamil Nadu',0);
+
+1 row created.
+
+SQL> insert into client values('C03','Chhaya Patel','Mumbai',400057,'Maharashtra',5000);
+
+1 row created.
+
+SQL> insert into client values('C04','Ashni Joshi','Bengalore',560001,'Karnataka',0);
+
+1 row created.
+
+SQL> insert into client values('C05','Harsh Desai','Mumbai',400060,'Maharashtra',2000);
+
+1 row created.
+
+SQL> insert into client values('C06','Deepak Sharma','Mangalore',560050,'Karnataka',0);
+
+1 row created.
+
+SQL> 
+SQL> desc client
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CLIENTNO                                           VARCHAR2(6)
+ NAME                                               VARCHAR2(20)
+ CITY                                               VARCHAR2(15)
+ PINCODE                                            NUMBER(8)
+ STATE                                              VARCHAR2(15)
+ BALDUE                                             NUMBER(10,5)
+
+SQL> select * from client;
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE                                                                      
+----------                                                                      
+C01    Ivan Bayross         Mumbai              400054 Maharashtra              
+     15000                                                                      
+                                                                                
+C02    Mamta Shah           Chennai             780001 Tamil Nadu               
+         0                                                                      
+                                                                                
+C03    Chhaya Patel         Mumbai              400057 Maharashtra              
+      5000                                                                      
+                                                                                
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE                                                                      
+----------                                                                      
+C04    Ashni Joshi          Bengalore           560001 Karnataka                
+         0                                                                      
+                                                                                
+C05    Harsh Desai          Mumbai              400060 Maharashtra              
+      2000                                                                      
+                                                                                
+C06    Deepak Sharma        Mangalore           560050 Karnataka                
+         0                                                                      
+                                                                                
+
+6 rows selected.
+
+SQL> insert into product values('P00001','1.44 Floppies',5,'Piece',100,20,525,500);
+
+1 row created.
+
+SQL> insert into product values('P03453','Monitors',6,'Piece',10,3,12000,11200);
+
+1 row created.
+
+SQL> insert into product values('P06734','Mouse',5,'Piece',20,5,1050,500);
+
+1 row created.
+
+SQL> insert into product values('P07865','1.22 Floppies',5,'Piece',100,20,525,500);
+
+1 row created.
+
+SQL> insert into product values('P07868','Keyboards',2,'Piece',10,3,3150,3050);
+
+1 row created.
+
+SQL> select * from product;
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P00001 1.44 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P03453 Monitors                    6 Piece              10          3      12000
+     11200                                                                      
+                                                                                
+P06734 Mouse                       5 Piece              20          5       1050
+       500                                                                      
+                                                                                
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P07865 1.22 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P07868 Keyboards                   2 Piece              10          3       3150
+      3050                                                                      
+                                                                                
+ 
+SQL> insert into salesman values('S01','Aman','A/14','Worli','Mumbai',400002,'Maharashtra',3000 ,100,50,'Good');
+
+1 row created.
+
+SQL> insert into salesman values('S02','Omkar','65','Nariman','Mumbai',400001,'Maharashtra',3000,200,100,'Good');
+
+1 row created.
+
+SQL> insert into salesman values('S03','Raj','P-7','Bandra','Mumbai',400032,'Maharashtra',3000,200,100,'Good');
+
+1 row created.
+
+SQL> insert into salesman values('S04','Ashish','A/5','Juhu','Mumbai',400044,'Maharashtra',3500,200,150,'Good');
+
+1 row created.
+ 
+SQL> select * from salesman;
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S01    Aman                 A/14                                                
+Worli                          Mumbai                   400002                  
+Maharashtra                3000        100         50                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S02    Omkar                65                                                  
+Nariman                        Mumbai                   400001                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S03    Raj                  P-7                                                 
+Bandra                         Mumbai                   400032                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S04    Ashish               A/5                                                 
+Juhu                           Mumbai                   400044                  
+Maharashtra                3500        200        150                           
+Good                                                                            
+                                                                                
+
+SQL> insert into sales_order values('O19001','C01','12-JAN16','S01','F','N','20-JAN-16','In Process');
+
+1 row created.
+
+SQL> insert into sales_order values('O19002','C02','25-JAN17','S02','P','N','27-JAN-17','Cancelled');
+
+1 row created.
+
+SQL> insert into sales_order values('O46865','C03','18-FEB17','S03','F','Y','20-FEB-17','Fulfilled');
+
+1 row created.
+
+SQL> insert into sales_order values('O19003','C01','03-APR16','S01','F','Y','07-APR-16','Fulfilled');
+
+1 row created.
+
+SQL> insert into sales_order values('O46866','C04','20-MAY16','S02','P','N','22-MAY-16','Cancelled');
+
+1 row created.
+
+SQL> insert into sales_order values('O19008','C05','24-MAY-16','S04','F','N','26-MAY-16','In Process');
+
+1 row created.
+
+SQL> select * from sales_order;
+
+ORDERN CLIENT ORDERDATE SALESM D B DELAYDATE ORDERSTATU                         
+------ ------ --------- ------ - - --------- ----------                         
+O19001 C01    12-JAN-16 S01    F N 20-JAN-16 In Process                         
+O19002 C02    25-JAN-17 S02    P N 27-JAN-17 Cancelled                          
+O46865 C03    18-FEB-17 S03    F Y 20-FEB-17 Fulfilled                          
+O19003 C01    03-APR-16 S01    F Y 07-APR-16 Fulfilled                          
+O46866 C04    20-MAY-16 S02    P N 22-MAY-16 Cancelled                          
+O19008 C05    24-MAY-16 S04    F N 26-MAY-16 In Process                         
+
+6 rows selected.
+ 
+SQL> insert into sales_order_details values('O19001','P00001',4,525);
+
+1 row created.
+
+SQL> insert into sales_order_details values('O19001','P07965',2,8400);
+
+1 row created.
+
+SQL> insert into sales_order_details values('O19001','P07885',2,5250);
+
+1 row created.
+
+SQL> insert into sales_order_details values('O19002','P00001',10,525);
+
+1 row created.
+
+SQL> insert into sales_order_details values('O46865','P07868',3,3150);
+
+1 row created.
+
+SQL> select * from sales_order_details;
+
+ORDERN PRODUC QTYORDERED PRODUCTRATE                                            
+------ ------ ---------- -----------                                            
+O19001 P00001          4         525                                            
+O19001 P07965          2        8400                                            
+O19001 P07885          2        5250                                            
+O19002 P00001         10         525                                            
+O46865 P07868          3        3150                                            
+
+SQL> select * from client where city='Chennai' or city ='Mumbai';
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE                                                                      
+----------                                                                      
+C01    Ivan Bayross         Mumbai              400054 Maharashtra              
+     15000                                                                      
+                                                                                
+C02    Mamta Shah           Chennai             780001 Tamil Nadu               
+         0                                                                      
+                                                                                
+C03    Chhaya Patel         Mumbai              400057 Maharashtra              
+      5000                                                                      
+                                                                                
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE                                                                      
+----------                                                                      
+C05    Harsh Desai          Mumbai              400060 Maharashtra              
+      2000                                                                      
+                                                                                
+
+SQL> select * from salesman where salamt=3000;
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S01    Aman                 A/14                                                
+Worli                          Mumbai                   400002                  
+Maharashtra                3000        100         50                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S02    Omkar                65                                                  
+Nariman                        Mumbai                   400001                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S03    Raj                  P-7                                                 
+Bandra                         Mumbai                   400032                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SQL> select salesmanname from salesman where salesmanno in (select salesmanno from sales_order);
+
+SALESMANNAME                                                                    
+--------------------                                                            
+Aman                                                                            
+Omkar                                                                           
+Raj                                                                             
+Ashish                                                                          
+
+SQL> select * from sales_order where orderstatus IN ('Cancelled','Fulfilled');
+
+ORDERN CLIENT ORDERDATE SALESM D B DELAYDATE ORDERSTATU                         
+------ ------ --------- ------ - - --------- ----------                         
+O19002 C02    25-JAN-17 S02    P N 27-JAN-17 Cancelled                          
+O46865 C03    18-FEB-17 S03    F Y 20-FEB-17 Fulfilled                          
+O19003 C01    03-APR-16 S01    F Y 07-APR-16 Fulfilled                          
+O46866 C04    20-MAY-16 S02    P N 22-MAY-16 Cancelled                          
+
+SQL> select * from product where sellprice > 500 and sellprice<=750;
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P00001 1.44 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P07865 1.22 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+
+SQL> select * from product where sellprice between 500 and 750;
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P00001 1.44 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P07865 1.22 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+
+SQL> select * from client where name like '_a%';
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE                                                                      
+----------                                                                      
+C02    Mamta Shah           Chennai             780001 Tamil Nadu               
+         0                                                                      
+                                                                                
+C05    Harsh Desai          Mumbai              400060 Maharashtra              
+      2000                                                                      
+                                                                                
+
+SQL> select * from product where 1.15 * sellprice > 500;
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P00001 1.44 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P03453 Monitors                    6 Piece              10          3      12000
+     11200                                                                      
+                                                                                
+P06734 Mouse                       5 Piece              20          5       1050
+       500                                                                      
+                                                                                
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P07865 1.22 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P07868 Keyboards                   2 Piece              10          3       3150
+      3050                                                                      
+                                                                                
+
+SQL> select name,city,state from client where state!='Maharashtra';
+
+NAME                 CITY            STATE                                      
+-------------------- --------------- ---------------                            
+Mamta Shah           Chennai         Tamil Nadu                                 
+Ashni Joshi          Bengalore       Karnataka                                  
+Deepak Sharma        Mangalore       Karnataka                                  
+
+SQL> select * from product order by sellprice desc;
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P03453 Monitors                    6 Piece              10          3      12000
+     11200                                                                      
+                                                                                
+P07868 Keyboards                   2 Piece              10          3       3150
+      3050                                                                      
+                                                                                
+P06734 Mouse                       5 Piece              20          5       1050
+       500                                                                      
+                                                                                
+
+PRODUC DESCRIPTION     PROFITPERCENT UNITMEASUR  QTYONHAND REORDERLVL  SELLPRICE
+------ --------------- ------------- ---------- ---------- ---------- ----------
+ COSTPRICE                                                                      
+----------                                                                      
+P07865 1.22 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+P00001 1.44 Floppies               5 Piece             100         20        525
+       500                                                                      
+                                                                                
+
+SQL> select * from sales_order where EXTRACT(YEAR FROM orderdate)=2017;
+
+ORDERN CLIENT ORDERDATE SALESM D B DELAYDATE ORDERSTATU                         
+------ ------ --------- ------ - - --------- ----------                         
+O19002 C02    25-JAN-17 S02    P N 27-JAN-17 Cancelled                          
+O46865 C03    18-FEB-17 S03    F Y 20-FEB-17 Fulfilled                          

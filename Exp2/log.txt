@@ -1,0 +1,202 @@
+SQL> 
+SQL> UPDATE client SET city = 'Bangalore' WHERE name = 'Harsh Desai';
+
+1 row updated.
+
+SQL> SELECT * FROM client;
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE  TELEPHONE                                                           
+---------- ----------                                                           
+C01    Ivan Bayross         Mumbai              400054 Maharashtra              
+     15000                                                                      
+                                                                                
+C03    Chhaya Patel         Mumbai              400057 Maharashtra              
+      5000                                                                      
+                                                                                
+C04    Ashni Joshi          Bengalore           560001 Karnataka                
+         0                                                                      
+                                                                                
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE  TELEPHONE                                                           
+---------- ----------                                                           
+C05    Harsh Desai          Bangalore           400060 Maharashtra              
+      2000                                                                      
+                                                                                
+C06    Deepak Sharma        Mangalore           560050 Karnataka                
+         0                                                                      
+                                                                                
+
+SQL> 
+SQL> DELETE FROM sman WHERE salamt = 3500;
+
+1 row deleted.
+
+SQL> SELECT * FROM sman;
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S01    Aman                 A/14                                                
+Worli                          Pune                     400002                  
+Maharashtra                3000        100         50                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S02    Omkar                65                                                  
+Nariman                        Pune                     400001                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SALESM SALESMANNAME         ADDRESS1                                            
+------ -------------------- ------------------------------                      
+ADDRESS2                       CITY                    PINCODE                  
+------------------------------ -------------------- ----------                  
+STATE                    SALAMT   TGTTOGET   YTDSALES                           
+-------------------- ---------- ---------- ----------                           
+REMARKS                                                                         
+------------------------------------------------------------                    
+S03    Raj                  P-7                                                 
+Bandra                         Pune                     400032                  
+Maharashtra                3000        200        100                           
+Good                                                                            
+                                                                                
+
+SQL> 
+SQL> DELETE FROM client WHERE state = 'Tamil Nadu';
+
+0 rows deleted.
+
+SQL> SELECT * FROM client;
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE  TELEPHONE                                                           
+---------- ----------                                                           
+C01    Ivan Bayross         Mumbai              400054 Maharashtra              
+     15000                                                                      
+                                                                                
+C03    Chhaya Patel         Mumbai              400057 Maharashtra              
+      5000                                                                      
+                                                                                
+C04    Ashni Joshi          Bengalore           560001 Karnataka                
+         0                                                                      
+                                                                                
+
+CLIENT NAME                 CITY               PINCODE STATE                    
+------ -------------------- --------------- ---------- ---------------          
+    BALDUE  TELEPHONE                                                           
+---------- ----------                                                           
+C05    Harsh Desai          Bangalore           400060 Maharashtra              
+      2000                                                                      
+                                                                                
+C06    Deepak Sharma        Mangalore           560050 Karnataka                
+         0                                                                      
+                                                                                
+
+SQL> 
+SQL> ALTER TABLE client ADD Telephone NUMBER(10);
+ALTER TABLE client ADD Telephone NUMBER(10)
+                       *
+ERROR at line 1:
+ORA-01430: column being added already exists in table 
+
+
+SQL> DESC client;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CLIENTNO                                           VARCHAR2(6)
+ NAME                                               VARCHAR2(20)
+ CITY                                               VARCHAR2(15)
+ PINCODE                                            NUMBER(8)
+ STATE                                              VARCHAR2(15)
+ BALDUE                                             NUMBER(10,5)
+ TELEPHONE                                          NUMBER(10)
+
+SQL> 
+SQL> ALTER TABLE product MODIFY sellprice NUMBER(6,2);
+ALTER TABLE product MODIFY sellprice NUMBER(6,2)
+                           *
+ERROR at line 1:
+ORA-01440: column to be modified must be empty to decrease precision or scale 
+
+
+SQL> 
+SQL> ALTER TABLE sman RENAME TO salesman;
+
+Table altered.
+
+SQL> DESC salesman;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SALESMANNO                                         VARCHAR2(6)
+ SALESMANNAME                                       VARCHAR2(20)
+ ADDRESS1                                           VARCHAR2(30)
+ ADDRESS2                                           VARCHAR2(30)
+ CITY                                               VARCHAR2(20)
+ PINCODE                                            NUMBER(8)
+ STATE                                              VARCHAR2(20)
+ SALAMT                                             NUMBER(8,2)
+ TGTTOGET                                           NUMBER(6,2)
+ YTDSALES                                           NUMBER(6,2)
+ REMARKS                                            VARCHAR2(60)
+
+SQL> 
+SQL> CREATE TABLE sales_order_new AS SELECT * FROM sales_order;
+
+Table created.
+
+SQL> SELECT * FROM sales_order_new;
+
+ORDERN CLIENT ORDERDATE SALESM D B DELAYDATE ORDERSTATU                         
+------ ------ --------- ------ - - --------- ----------                         
+O19001 C01    12-JAN-16 S01    F N 20-JAN-16 In Process                         
+O19002 C02    25-JAN-17 S02    P N 27-JAN-17 Cancelled                          
+O46865 C03    18-FEB-17 S03    F Y 20-FEB-17 Fulfilled                          
+O19003 C01    03-APR-16 S01    F Y 07-APR-16 Fulfilled                          
+O46866 C04    20-MAY-16 S02    P N 22-MAY-16 Cancelled                          
+O19008 C05    24-MAY-16 S04    F N 26-MAY-16 In Process                         
+
+6 rows selected.
+
+SQL> 
+SQL> CREATE TABLE order_details AS SELECT * FROM sales_order_details WHERE 1 = 2;
+
+Table created.
+
+SQL> SELECT * FROM order_details;
+
+no rows selected
+
+SQL> DESC order_details;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ORDERNO                                            VARCHAR2(6)
+ PRODUCTNO                                          VARCHAR2(6)
+ QTYORDERED                                         NUMBER(8)
+ PRODUCTRATE                                        NUMBER(10,2)
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> SET echo OFF;
