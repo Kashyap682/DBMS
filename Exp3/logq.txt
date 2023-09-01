@@ -1,0 +1,536 @@
+SQL> 
+SQL> select LOWER(first_name), UPPER(last_name) from employees where employee_id>=80 and employee_id<=150;
+
+LOWER(FIRST_NAME)    UPPER(LAST_NAME)                                           
+-------------------- -------------------------                                  
+steven               KING                                                       
+neena                KOCHHAR                                                    
+lex                  DE HAAN                                                    
+alexander            HUNOLD                                                     
+bruce                ERNST                                                      
+david                AUSTIN                                                     
+valli                PATABALLA                                                  
+den                  RAPHAELY                                                   
+karen                COLMENARES                                                 
+
+9 rows selected.
+
+SQL> Select first_name, last_name, SUBSTR(first_name,1,1)||SUBSTR(last_name,1,3)||'@oracle.com' AS email_id from employees;
+
+FIRST_NAME           LAST_NAME                 EMAIL_ID                         
+-------------------- ------------------------- ---------------                  
+Steven               King                      SKin@oracle.com                  
+Neena                Kochhar                   NKoc@oracle.com                  
+Lex                  De Haan                   LDe @oracle.com                  
+Alexander            Hunold                    AHun@oracle.com                  
+Bruce                Ernst                     BErn@oracle.com                  
+David                Austin                    DAus@oracle.com                  
+Valli                Pataballa                 VPat@oracle.com                  
+Den                  Raphaely                  DRap@oracle.com                  
+Karen                Colmenares                KCol@oracle.com                  
+William              Gietz                     WGie@oracle.com                  
+
+10 rows selected.
+
+SQL> Select first_name, last_name, SUBSTR(first_name,1,1)||SUBSTR(last_name,-3)||'@oracle.com' AS email_id from employees;
+
+FIRST_NAME           LAST_NAME                 EMAIL_ID                         
+-------------------- ------------------------- ---------------                  
+Steven               King                      Sing@oracle.com                  
+Neena                Kochhar                   Nhar@oracle.com                  
+Lex                  De Haan                   Laan@oracle.com                  
+Alexander            Hunold                    Aold@oracle.com                  
+Bruce                Ernst                     Bnst@oracle.com                  
+David                Austin                    Dtin@oracle.com                  
+Valli                Pataballa                 Vlla@oracle.com                  
+Den                  Raphaely                  Dely@oracle.com                  
+Karen                Colmenares                Kres@oracle.com                  
+William              Gietz                     Wetz@oracle.com                  
+
+10 rows selected.
+
+SQL> select (first_name)||(last_name)||(hire_date) from employees;
+
+(FIRST_NAME)||(LAST_NAME)||(HIRE_DATE)                                          
+------------------------------------------------------                          
+StevenKing17-JUN-00                                                             
+NeenaKochhar18-JUN-12                                                           
+LexDe Haan19-JUN-17                                                             
+AlexanderHunold20-MAY-16                                                        
+BruceErnst20-MAY-14                                                             
+DavidAustin17-SEP-01                                                            
+ValliPataballa20-SEP-01                                                         
+DenRaphaely01-SEP-90                                                            
+KarenColmenares06-JUL-87                                                        
+WilliamGietz06-JUL-05                                                           
+
+10 rows selected.
+
+SQL> select last_name from employees where length(last_name)>8;
+
+LAST_NAME                                                                       
+-------------------------                                                       
+Pataballa                                                                       
+Colmenares                                                                      
+
+SQL> select first_name, last_name, phone_number, REPLACE(phone_number,515,815) from employees;
+
+FIRST_NAME           LAST_NAME                 PHONE_NUMBER                     
+-------------------- ------------------------- --------------------             
+REPLACE(PHONE_NUMBER,515,815)                                                   
+------------------------------------------------------------                    
+Steven               King                      515.123.4567                     
+815.123.4567                                                                    
+                                                                                
+Neena                Kochhar                   515.123.4568                     
+815.123.4568                                                                    
+                                                                                
+Lex                  De Haan                   123.515.4569                     
+123.815.4569                                                                    
+                                                                                
+
+FIRST_NAME           LAST_NAME                 PHONE_NUMBER                     
+-------------------- ------------------------- --------------------             
+REPLACE(PHONE_NUMBER,515,815)                                                   
+------------------------------------------------------------                    
+Alexander            Hunold                    590.423.4567                     
+590.423.4567                                                                    
+                                                                                
+Bruce                Ernst                     590.423.4568                     
+590.423.4568                                                                    
+                                                                                
+David                Austin                    590.423.4569                     
+590.423.4569                                                                    
+                                                                                
+
+FIRST_NAME           LAST_NAME                 PHONE_NUMBER                     
+-------------------- ------------------------- --------------------             
+REPLACE(PHONE_NUMBER,515,815)                                                   
+------------------------------------------------------------                    
+Valli                Pataballa                 590.423.4560                     
+590.423.4560                                                                    
+                                                                                
+Den                  Raphaely                  515.127.4561                     
+815.127.4561                                                                    
+                                                                                
+Karen                Colmenares                515.127.4566                     
+815.127.4566                                                                    
+                                                                                
+
+FIRST_NAME           LAST_NAME                 PHONE_NUMBER                     
+-------------------- ------------------------- --------------------             
+REPLACE(PHONE_NUMBER,515,815)                                                   
+------------------------------------------------------------                    
+William              Gietz                     515.123.8181                     
+815.123.8181                                                                    
+                                                                                
+
+10 rows selected.
+
+SQL> select first_name, salary, salary * 1.12 AS raise_12_percent, ROUND(salary * 1.12) AS raise_12_percent_whole, FLOOR(salary * 1.12) AS raise_12_percent_rounded_down FROM employees;
+
+FIRST_NAME               SALARY RAISE_12_PERCENT RAISE_12_PERCENT_WHOLE         
+-------------------- ---------- ---------------- ----------------------         
+RAISE_12_PERCENT_ROUNDED_DOWN                                                   
+-----------------------------                                                   
+Steven                    24000            26880                  26880         
+                        26880                                                   
+                                                                                
+Neena                     17000            19040                  19040         
+                        19040                                                   
+                                                                                
+Lex                       17000            19040                  19040         
+                        19040                                                   
+                                                                                
+
+FIRST_NAME               SALARY RAISE_12_PERCENT RAISE_12_PERCENT_WHOLE         
+-------------------- ---------- ---------------- ----------------------         
+RAISE_12_PERCENT_ROUNDED_DOWN                                                   
+-----------------------------                                                   
+Alexander                  9000            10080                  10080         
+                        10080                                                   
+                                                                                
+Bruce                      6000             6720                   6720         
+                         6720                                                   
+                                                                                
+David                      4800             5376                   5376         
+                         5376                                                   
+                                                                                
+
+FIRST_NAME               SALARY RAISE_12_PERCENT RAISE_12_PERCENT_WHOLE         
+-------------------- ---------- ---------------- ----------------------         
+RAISE_12_PERCENT_ROUNDED_DOWN                                                   
+-----------------------------                                                   
+Valli                      4800             5376                   5376         
+                         5376                                                   
+                                                                                
+Den                       11000            12320                  12320         
+                        12320                                                   
+                                                                                
+Karen                      2500             2800                   2800         
+                         2800                                                   
+                                                                                
+
+FIRST_NAME               SALARY RAISE_12_PERCENT RAISE_12_PERCENT_WHOLE         
+-------------------- ---------- ---------------- ----------------------         
+RAISE_12_PERCENT_ROUNDED_DOWN                                                   
+-----------------------------                                                   
+William                    8300             9296                   9296         
+                         9296                                                   
+                                                                                
+
+10 rows selected.
+
+SQL> select first_name, hire_date, hire_date-10, ADD_MONTHS(hire_date,1), CURRENT_DATE-hire_date from employees;
+
+FIRST_NAME           HIRE_DATE HIRE_DATE ADD_MONTH CURRENT_DATE-HIRE_DATE       
+-------------------- --------- --------- --------- ----------------------       
+Steven               17-JUN-00 07-JUN-00 17-JUL-00              8476.4773       
+Neena                18-JUN-12 08-JUN-12 18-JUL-12              4092.4773       
+Lex                  19-JUN-17 09-JUN-17 19-JUL-17              2265.4773       
+Alexander            20-MAY-16 10-MAY-16 20-JUN-16              2660.4773       
+Bruce                20-MAY-14 10-MAY-14 20-JUN-14              3391.4773       
+David                17-SEP-01 07-SEP-01 17-OCT-01              8019.4773       
+Valli                20-SEP-01 10-SEP-01 20-OCT-01              8016.4773       
+Den                  01-SEP-90 22-AUG-90 01-OCT-90             12053.4773       
+Karen                06-JUL-87 26-JUN-87 06-AUG-87             13206.4773       
+William              06-JUL-05 26-JUN-05 06-AUG-05              6631.4773       
+
+10 rows selected.
+
+SQL> select first_name, last_name, hire_date, MONTHS_BETWEEN(CURRENT_DATE, HIRE_DATE), EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM HIRE_DATE) FROM EMPLOYEES;
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+Steven               King                      17-JUN-00                        
+                            278.499268                                          
+                                                      23                        
+                                                                                
+Neena                Kochhar                   18-JUN-12                        
+                             134.46701                                          
+                                                      11                        
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+                                                                                
+Lex                  De Haan                   19-JUN-17                        
+                            74.4347517                                          
+                                                       6                        
+                                                                                
+Alexander            Hunold                    20-MAY-16                        
+                            87.4024937                                          
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+                                                       7                        
+                                                                                
+Bruce                Ernst                     20-MAY-14                        
+                            111.402494                                          
+                                                       9                        
+                                                                                
+David                Austin                    17-SEP-01                        
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+                            263.499268                                          
+                                                      22                        
+                                                                                
+Valli                Pataballa                 20-SEP-01                        
+                            263.402494                                          
+                                                      22                        
+                                                                                
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+Den                  Raphaely                  01-SEP-90                        
+                                   396                                          
+                                                      33                        
+                                                                                
+Karen                Colmenares                06-JUL-87                        
+                            433.854107                                          
+                                                      36                        
+
+FIRST_NAME           LAST_NAME                 HIRE_DATE                        
+-------------------- ------------------------- ---------                        
+MONTHS_BETWEEN(CURRENT_DATE,HIRE_DATE)                                          
+--------------------------------------                                          
+EXTRACT(YEARFROMCURRENT_DATE)-EXTRACT(YEARFROMHIRE_DATE)                        
+--------------------------------------------------------                        
+                                                                                
+William              Gietz                     06-JUL-05                        
+                            217.854107                                          
+                                                      18                        
+                                                                                
+
+10 rows selected.
+
+SQL> select first_name, hire_date, hire_date + interval '1' year from employees;
+
+FIRST_NAME           HIRE_DATE HIRE_DATE                                        
+-------------------- --------- ---------                                        
+Steven               17-JUN-00 17-JUN-01                                        
+Neena                18-JUN-12 18-JUN-13                                        
+Lex                  19-JUN-17 19-JUN-18                                        
+Alexander            20-MAY-16 20-MAY-17                                        
+Bruce                20-MAY-14 20-MAY-15                                        
+David                17-SEP-01 17-SEP-02                                        
+Valli                20-SEP-01 20-SEP-02                                        
+Den                  01-SEP-90 01-SEP-91                                        
+Karen                06-JUL-87 06-JUL-88                                        
+William              06-JUL-05 06-JUL-06                                        
+
+10 rows selected.
+
+SQL> select first_name, hire_date, ROUND(hire_date,'MONTH'), ROUND(hire_date,'YEAR') from employees;
+
+FIRST_NAME           HIRE_DATE ROUND(HIR ROUND(HIR                              
+-------------------- --------- --------- ---------                              
+Steven               17-JUN-00 01-JUL-00 01-JAN-00                              
+Neena                18-JUN-12 01-JUL-12 01-JAN-12                              
+Lex                  19-JUN-17 01-JUL-17 01-JAN-17                              
+Alexander            20-MAY-16 01-JUN-16 01-JAN-16                              
+Bruce                20-MAY-14 01-JUN-14 01-JAN-14                              
+David                17-SEP-01 01-OCT-01 01-JAN-02                              
+Valli                20-SEP-01 01-OCT-01 01-JAN-02                              
+Den                  01-SEP-90 01-SEP-90 01-JAN-91                              
+Karen                06-JUL-87 01-JUL-87 01-JAN-88                              
+William              06-JUL-05 01-JUL-05 01-JAN-06                              
+
+10 rows selected.
+
+SQL> select first_name, EXTRACT(DAY FROM HIRE_DATE) AS HIRE_DATE, EXTRACT(YEAR FROM HIRE_DATE) AS HIRE_YEAR FROM EMPLOYEES;
+
+FIRST_NAME            HIRE_DATE  HIRE_YEAR                                      
+-------------------- ---------- ----------                                      
+Steven                       17       2000                                      
+Neena                        18       2012                                      
+Lex                          19       2017                                      
+Alexander                    20       2016                                      
+Bruce                        20       2014                                      
+David                        17       2001                                      
+Valli                        20       2001                                      
+Den                           1       1990                                      
+Karen                         6       1987                                      
+William                       6       2005                                      
+
+10 rows selected.
+
+SQL> select UPPER(last_name), TO_CHAR(salary,'9999.999'), TO_CHAR(hire_date,' D/MM/YYYY') FROM employees where SUBSTR(last_name,1,1) IN ('D','K');
+
+UPPER(LAST_NAME)          TO_CHAR(S TO_CHAR(HI                                  
+------------------------- --------- ----------                                  
+KING                      #########  7/06/2000                                  
+KOCHHAR                   #########  2/06/2012                                  
+DE HAAN                   #########  2/06/2017                                  
+
+SQL> select first_name, last_name, salary, coalesce(commission_pct,0) from employees;
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+COALESCE(COMMISSION_PCT,0)                                                      
+--------------------------                                                      
+Steven               King                           24000                       
+                         0                                                      
+                                                                                
+Neena                Kochhar                        17000                       
+                         0                                                      
+                                                                                
+Lex                  De Haan                        17000                       
+                         0                                                      
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+COALESCE(COMMISSION_PCT,0)                                                      
+--------------------------                                                      
+Alexander            Hunold                          9000                       
+                         0                                                      
+                                                                                
+Bruce                Ernst                           6000                       
+                         0                                                      
+                                                                                
+David                Austin                          4800                       
+                         0                                                      
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+COALESCE(COMMISSION_PCT,0)                                                      
+--------------------------                                                      
+Valli                Pataballa                       4800                       
+                         0                                                      
+                                                                                
+Den                  Raphaely                       11000                       
+                         0                                                      
+                                                                                
+Karen                Colmenares                      2500                       
+                         0                                                      
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+COALESCE(COMMISSION_PCT,0)                                                      
+--------------------------                                                      
+William              Gietz                           8300                       
+                         0                                                      
+                                                                                
+
+10 rows selected.
+
+SQL> select first_name, last_name,salary, NVL(TO_CHAR(commission_pct),'NO Commission') from employees;
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+NVL(TO_CHAR(COMMISSION_PCT),'NOCOMMISSIO                                        
+----------------------------------------                                        
+Steven               King                           24000                       
+NO Commission                                                                   
+                                                                                
+Neena                Kochhar                        17000                       
+0                                                                               
+                                                                                
+Lex                  De Haan                        17000                       
+NO Commission                                                                   
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+NVL(TO_CHAR(COMMISSION_PCT),'NOCOMMISSIO                                        
+----------------------------------------                                        
+Alexander            Hunold                          9000                       
+NO Commission                                                                   
+                                                                                
+Bruce                Ernst                           6000                       
+0                                                                               
+                                                                                
+David                Austin                          4800                       
+0                                                                               
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+NVL(TO_CHAR(COMMISSION_PCT),'NOCOMMISSIO                                        
+----------------------------------------                                        
+Valli                Pataballa                       4800                       
+0                                                                               
+                                                                                
+Den                  Raphaely                       11000                       
+0                                                                               
+                                                                                
+Karen                Colmenares                      2500                       
+NO Commission                                                                   
+                                                                                
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+NVL(TO_CHAR(COMMISSION_PCT),'NOCOMMISSIO                                        
+----------------------------------------                                        
+William              Gietz                           8300                       
+NO Commission                                                                   
+                                                                                
+
+10 rows selected.
+
+SQL> select first_name, last_name, salary, case when salary between 0 and 5000 then 'A' when salary between 5001 and 15000 then 'B' when salary between 15001 and 20000 then 'C' ELSE 'D' END as salary_grade from employees;
+
+FIRST_NAME           LAST_NAME                     SALARY S                     
+-------------------- ------------------------- ---------- -                     
+Steven               King                           24000 D                     
+Neena                Kochhar                        17000 C                     
+Lex                  De Haan                        17000 C                     
+Alexander            Hunold                          9000 B                     
+Bruce                Ernst                           6000 B                     
+David                Austin                          4800 A                     
+Valli                Pataballa                       4800 A                     
+Den                  Raphaely                       11000 B                     
+Karen                Colmenares                      2500 A                     
+William              Gietz                           8300 B                     
+
+10 rows selected.
+
+SQL> select first_name, salary, ROUND(salary,-3) from employees;
+
+FIRST_NAME               SALARY ROUND(SALARY,-3)                                
+-------------------- ---------- ----------------                                
+Steven                    24000            24000                                
+Neena                     17000            17000                                
+Lex                       17000            17000                                
+Alexander                  9000             9000                                
+Bruce                      6000             6000                                
+David                      4800             5000                                
+Valli                      4800             5000                                
+Den                       11000            11000                                
+Karen                      2500             3000                                
+William                    8300             8000                                
+
+10 rows selected.
+
+SQL> select first_name from employees where EXTRACT(MONTH FROM hire_date)=5;
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Alexander                                                                       
+Bruce                                                                           
+
+SQL> select CASE when INSTR(job_id,' ')>0 then SUBSTR(job_id, 1, INSTR(job_id,' ')-1) ELSE job_id END from employees;
+
+CASEWHENINSTR(JOB_ID,'')>0THENSUBSTR(JOB                                        
+----------------------------------------                                        
+PRESIDENT                                                                       
+VICE                                                                            
+VICE                                                                            
+IT                                                                              
+FINANCIAL                                                                       
+IT                                                                              
+FINANCE                                                                         
+SALES                                                                           
+CLERK                                                                           
+ACCOUNTANT                                                                      
+
+10 rows selected.
+
+SQL> select first_name,last_name,LENGTH(first_name) from employees where INSTR(SUBSTR(last_name,4),'b')>0;
+
+FIRST_NAME           LAST_NAME                 LENGTH(FIRST_NAME)               
+-------------------- ------------------------- ------------------               
+Valli                Pataballa                                  5               
+
+SQL> select first_name from employees where EXTRACT(YEAR from CURRENT_DATE) - EXTRACT(YEAR FROM hire_date)>0;
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Steven                                                                          
+Neena                                                                           
+Lex                                                                             
+Alexander                                                                       
+Bruce                                                                           
+David                                                                           
+Valli                                                                           
+Den                                                                             
+Karen                                                                           
+William                                                                         
+
+10 rows selected.
+
+SQL> 
+SQL> SET echo off;
