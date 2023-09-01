@@ -1,0 +1,245 @@
+SQL> 
+SQL> select first_name from employees where first_name like '_____';
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Neena                                                                           
+Bruce                                                                           
+David                                                                           
+Valli                                                                           
+Karen                                                                           
+
+SQL> select first_name from employees where first_name like 'K____';
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Karen                                                                           
+
+SQL> select first_name from employees where first_name like '___i_' or first_name like '___e_';
+
+FIRST_NAME                                                                      
+--------------------                                                            
+David                                                                           
+Karen                                                                           
+
+SQL> select first_name, last_name, salary from employees where salary like '___0';
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+Alexander            Hunold                          9000                       
+Bruce                Ernst                           6000                       
+David                Austin                          4800                       
+Valli                Pataballa                       4800                       
+Karen                Colmenares                      2500                       
+William              Gietz                           8300                       
+
+6 rows selected.
+
+SQL> select first_name, last_name from employees where first_name like '%ll%' or last_name like '%ll%';
+
+FIRST_NAME           LAST_NAME                                                  
+-------------------- -------------------------                                  
+Valli                Pataballa                                                  
+William              Gietz                                                      
+
+SQL> select * from employees where salary > (select salary from employees where first_name='William');
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        100 Steven               King                                           
+SKING                     515.123.4567         17-JUN-00                        
+PRESIDENT                                     24000                       103   
+           90                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        101 Neena                Kochhar                                        
+NKOCHHAR                  515.123.4568         18-JUN-12                        
+VICE PRESIDENT                                17000              0        100   
+           90                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        102 Lex                  De Haan                                        
+LDEHAAN                   123.515.4569         19-JUN-17                        
+VICE PRESIDENT                                17000                       100   
+           90                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        103 Alexander            Hunold                                         
+AHUNOLD                   590.423.4567         20-MAY-16                        
+IT PROG                                        9000                       102   
+           60                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        114 Den                  Raphaely                                       
+DRAPHEAL                  515.127.4561         01-SEP-90                        
+SALES CLERK                                   11000              0        100   
+           30                                                                   
+                                                                                
+
+SQL> select * from employees where DEPARTMENT_ID=90 and JOB_ID not in (select JOB_ID from employees where DEPARTMENT_ID=60);
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        102 Lex                  De Haan                                        
+LDEHAAN                   123.515.4569         19-JUN-17                        
+VICE PRESIDENT                                17000                       100   
+           90                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        101 Neena                Kochhar                                        
+NKOCHHAR                  515.123.4568         18-JUN-12                        
+VICE PRESIDENT                                17000              0        100   
+           90                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        100 Steven               King                                           
+SKING                     515.123.4567         17-JUN-00                        
+PRESIDENT                                     24000                       103   
+           90                                                                   
+                                                                                
+
+SQL> select first_name,salary from employees where salary*1.2>10000;
+
+FIRST_NAME               SALARY                                                 
+-------------------- ----------                                                 
+Steven                    24000                                                 
+Neena                     17000                                                 
+Lex                       17000                                                 
+Alexander                  9000                                                 
+Den                       11000                                                 
+
+SQL> select first_name,salary from employees where salary*12 > 70000 and salary*12 <90000;
+
+FIRST_NAME               SALARY                                                 
+-------------------- ----------                                                 
+Bruce                      6000                                                 
+
+SQL> select employee_id,first_name,salary,job_id,department_id from employees where job_id = 'IT PROG' and salary*12>80000 order by (department_id) asc;
+
+EMPLOYEE_ID FIRST_NAME               SALARY                                     
+----------- -------------------- ----------                                     
+JOB_ID                                   DEPARTMENT_ID                          
+---------------------------------------- -------------                          
+        103 Alexander                  9000                                     
+IT PROG                                             60                          
+                                                                                
+
+SQL> select employee_id,first_name,salary,job_id,department_id,salary*12 as anual_salary from employees where department_id= 90 or department_id= 60;
+
+EMPLOYEE_ID FIRST_NAME               SALARY                                     
+----------- -------------------- ----------                                     
+JOB_ID                                   DEPARTMENT_ID ANUAL_SALARY             
+---------------------------------------- ------------- ------------             
+        100 Steven                    24000                                     
+PRESIDENT                                           90       288000             
+                                                                                
+        101 Neena                     17000                                     
+VICE PRESIDENT                                      90       204000             
+                                                                                
+        102 Lex                       17000                                     
+VICE PRESIDENT                                      90       204000             
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME               SALARY                                     
+----------- -------------------- ----------                                     
+JOB_ID                                   DEPARTMENT_ID ANUAL_SALARY             
+---------------------------------------- ------------- ------------             
+        103 Alexander                  9000                                     
+IT PROG                                             60       108000             
+                                                                                
+        104 Bruce                      6000                                     
+FINANCIAL MANAGER                                   60        72000             
+                                                                                
+        105 David                      4800                                     
+IT PROG                                             60        57600             
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME               SALARY                                     
+----------- -------------------- ----------                                     
+JOB_ID                                   DEPARTMENT_ID ANUAL_SALARY             
+---------------------------------------- ------------- ------------             
+        106 Valli                      4800                                     
+FINANCE ACCOUNTANT                                  60        57600             
+                                                                                
+
+7 rows selected.
+
+SQL> select salesmanno, qtyordered FROM sales_order INNER JOIN sales_order_details ON sales_order.orderno = sales_order_details.orderno;
+
+SALESM QTYORDERED                                                               
+------ ----------                                                               
+S01             2                                                               
+S01             2                                                               
+S01             4                                                               
+S02            10                                                               
+S03             3                                                               
+
+SQL> select salesmanno,qtyordered,productrate FROM sales_order INNER JOIN sales_order_details ON sales_order.orderno = sales_order_details.orderno where qtyordered*productrate>10000;
+
+SALESM QTYORDERED PRODUCTRATE                                                   
+------ ---------- -----------                                                   
+S01             2        5250                                                   
+S01             2        8400                                                   
+
+SQL> 
+SQL> SET echo off
