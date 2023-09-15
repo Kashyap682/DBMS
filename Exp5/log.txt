@@ -1,0 +1,199 @@
+SQL> 
+SQL> select sum(salary) from employees;
+
+SUM(SALARY)                                                                     
+-----------                                                                     
+     104400                                                                     
+
+SQL> select department_id, count(employee_id) from employees group by department_id having count(employee_id) = (select max(count(employee_id)) from employees group by department_id);
+
+DEPARTMENT_ID COUNT(EMPLOYEE_ID)                                                
+------------- ------------------                                                
+           60                  4                                                
+
+SQL> select department_id, sum(salary) from employees group by department_id;
+
+DEPARTMENT_ID SUM(SALARY)                                                       
+------------- -----------                                                       
+           30       13500                                                       
+           90       58000                                                       
+          110        8300                                                       
+           60       24600                                                       
+
+SQL> select job_id, sum(salary) from employees group by job_id;
+
+JOB_ID                                   SUM(SALARY)                            
+---------------------------------------- -----------                            
+FINANCE ACCOUNTANT                              4800                            
+ACCOUNTANT                                      8300                            
+VICE PRESIDENT                                 34000                            
+IT PROG                                        13800                            
+FINANCIAL MANAGER                               6000                            
+SALES CLERK                                    11000                            
+CLERK                                           2500                            
+PRESIDENT                                      24000                            
+
+8 rows selected.
+
+SQL> select department_id from employees where salary = (select max(salary) from employees);
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+           90                                                                   
+
+SQL> select department_id from employees where salary = (select min(salary) from employees);
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+           30                                                                   
+
+SQL> select job_id, AVG(salary) from employees group by job_id HAVING job_id in('CLERK', 'SALES CLERK');
+
+JOB_ID                                   AVG(SALARY)                            
+---------------------------------------- -----------                            
+SALES CLERK                                    11000                            
+CLERK                                           2500                            
+
+SQL> select job_id, AVG(salary) from employees group by job_id HAVING job_id in('FINANCIAL MANAGER', 'SALES CLERK');
+
+JOB_ID                                   AVG(SALARY)                            
+---------------------------------------- -----------                            
+FINANCIAL MANAGER                               6000                            
+SALES CLERK                                    11000                            
+
+SQL> select employee_id, first_name, last_name, 12*salary as annual_salary from employees where salary = (select MAX(salary) from employees);
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 ANNUAL_SALARY        
+----------- -------------------- ------------------------- -------------        
+        100 Steven               King                             288000        
+
+SQL> select employee_id, first_name, last_name, salary as monthly_salary from employees where salary = (select MIN(salary) from employees);
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 MONTHLY_SALARY       
+----------- -------------------- ------------------------- --------------       
+        119 Karen                Colmenares                          2500       
+
+SQL> select employee_id, first_name, last_name from employees where hire_date > TO_DATE('20140601', 'YYYYMMDD') order by JOB_ID;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+        103 Alexander            Hunold                                         
+        102 Lex                  De Haan                                        
+
+SQL> select employee_id, first_name, last_name from employees where hire_date > TO_DATE('20140601', 'YYYYMMDD') order by JOB_ID;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+        103 Alexander            Hunold                                         
+        102 Lex                  De Haan                                        
+
+SQL> select employee_id, ROUND(MONTHS_BETWEEN(CURRENT_DATE, HIRE_DATE)/12) as expereince_in_years, round(salary/30) as daily_sal from employees where salary/30 > 350;
+
+EMPLOYEE_ID EXPEREINCE_IN_YEARS  DAILY_SAL                                      
+----------- ------------------- ----------                                      
+        100                  23        800                                      
+        101                  11        567                                      
+        102                   6        567                                      
+        114                  33        367                                      
+
+SQL> select FIRST_NAME, HIRE_DATE from EMPLOYEES order by HIRE_DATE;
+
+FIRST_NAME           HIRE_DATE                                                  
+-------------------- ---------                                                  
+Karen                06-JUL-87                                                  
+Den                  01-SEP-90                                                  
+Steven               17-JUN-00                                                  
+David                17-SEP-01                                                  
+Valli                20-SEP-01                                                  
+William              06-JUL-05                                                  
+Neena                18-JUN-12                                                  
+Bruce                20-MAY-14                                                  
+Alexander            20-MAY-16                                                  
+Lex                  19-JUN-17                                                  
+
+10 rows selected.
+
+SQL> select FIRST_NAME, HIRE_DATE from EMPLOYEES where HIRE_DATE < TO_DATE('01/01/2001','DD/MM/YYYY') OR HIRE_DATE > TO_DATE('31/12/2001','DD/MM/YYYY');
+
+FIRST_NAME           HIRE_DATE                                                  
+-------------------- ---------                                                  
+Steven               17-JUN-00                                                  
+Neena                18-JUN-12                                                  
+Lex                  19-JUN-17                                                  
+Alexander            20-MAY-16                                                  
+Bruce                20-MAY-14                                                  
+Den                  01-SEP-90                                                  
+Karen                06-JUL-87                                                  
+William              06-JUL-05                                                  
+
+8 rows selected.
+
+SQL> select FIRST_NAME, EXTRACT(YEAR from HIRE_DATE) as JOINING_YEAR from EMPLOYEES where EXTRACT(YEAR from HIRE_DATE) = 1990;
+
+FIRST_NAME           JOINING_YEAR                                               
+-------------------- ------------                                               
+Den                          1990                                               
+
+SQL> select FIRST_NAME, EXTRACT(YEAR from HIRE_DATE) as JOINING_YEAR from EMPLOYEES where EXTRACT(YEAR from HIRE_DATE) = 2005;
+
+FIRST_NAME           JOINING_YEAR                                               
+-------------------- ------------                                               
+William                      2005                                               
+
+SQL> select JOB_ID, CEIL(AVG(EXTRACT(YEAR from CURRENT_DATE) - EXTRACT(YEAR from HIRE_DATE))) as AVG_EXP from EMPLOYEES group by JOB_ID HAVING JOB_ID = 'CLERK' OR JOB_ID = 'SALES CLERK';
+
+JOB_ID                                      AVG_EXP                             
+---------------------------------------- ----------                             
+SALES CLERK                                      33                             
+CLERK                                            36                             
+
+SQL> select FIRST_NAME, HIRE_DATE from EMPLOYEES where EXTRACT(MONTH from HIRE_DATE) = 1;
+
+no rows selected
+
+SQL> select FIRST_NAME, HIRE_DATE from EMPLOYEES where (CURRENT_DATE - HIRE_DATE)/365 >= 10;
+
+FIRST_NAME           HIRE_DATE                                                  
+-------------------- ---------                                                  
+Steven               17-JUN-00                                                  
+Neena                18-JUN-12                                                  
+David                17-SEP-01                                                  
+Valli                20-SEP-01                                                  
+Den                  01-SEP-90                                                  
+Karen                06-JUL-87                                                  
+William              06-JUL-05                                                  
+
+7 rows selected.
+
+SQL> select FIRST_NAME, HIRE_DATE from EMPLOYEES where HIRE_DATE < (SELECT MAX(HIRE_DATE) from EMPLOYEES where MANAGER_ID = (select EMPLOYEE_ID from EMPLOYEES where FIRST_NAME = 'Lex'));
+
+FIRST_NAME           HIRE_DATE                                                  
+-------------------- ---------                                                  
+Steven               17-JUN-00                                                  
+Neena                18-JUN-12                                                  
+Bruce                20-MAY-14                                                  
+David                17-SEP-01                                                  
+Valli                20-SEP-01                                                  
+Den                  01-SEP-90                                                  
+Karen                06-JUL-87                                                  
+William              06-JUL-05                                                  
+
+8 rows selected.
+
+SQL> select SALESMANNO, SUM(QTYORDERED * PRODUCTRATE) from SALES_ORDER_DETAILS S1 JOIN SALES_ORDER S2 ON S1.ORDERNO = S2.ORDERNO group by S2.SALESMANNO;
+
+SALESM SUM(QTYORDERED*PRODUCTRATE)                                              
+------ ---------------------------                                              
+S01                          29400                                              
+S02                           5250                                              
+S03                           9450                                              
+
+SQL> select S1.ORDERNO, PRODUCTNO, SALESMANNO, QTYORDERED * PRODUCTRATE as ORDER_AMOUNT from SALES_ORDER S1 JOIN SALES_ORDER_DETAILS S2 ON S1.ORDERNO = S2.ORDERNO where QTYORDERED * PRODUCTRATE > 10000;
+
+ORDERN PRODUC SALESM ORDER_AMOUNT                                               
+------ ------ ------ ------------                                               
+O19001 P07885 S01           10500                                               
+O19001 P07965 S01           16800                                               
+
+SQL> 
+SQL> SET echo off
