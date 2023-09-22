@@ -1,0 +1,124 @@
+SQL> 
+SQL> ALTER TABLE client ADD CONSTRAINT c_id PRIMARY KEY (clientno);
+
+Table altered.
+
+SQL> ALTER TABLE client ADD CONSTRAINT chk_id CHECK (clientno like 'C%');
+
+Table altered.
+
+SQL> ALTER TABLE client MODIFY name NOT NULL;
+
+Table altered.
+
+SQL> 
+
+SQL> ALTER TABLE product MODIFY description NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY profitpercent NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY unitmeasure NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY qtyonhand NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY reorderlvl NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY sellprice NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product MODIFY costprice NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE product ADD CONSTRAINT chk_p CHECK (sellprice>0 AND costprice>0);
+
+Table altered.
+
+SQL> 
+
+SQL> ALTER TABLE salesman ADD CONSTRAINT s_id PRIMARY KEY (salesmanno);
+
+Table altered.
+
+SQL> ALTER TABLE salesman MODIFY salesmanname NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE salesman MODIFY address1 NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE salesman MODIFY salamt NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE salesman MODIFY tgttoget NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE salesman MODIFY ytdsales NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE salesman ADD CONSTRAINT chk_amt CHECK (salamt>0 AND tgttoget>0);
+
+Table altered.
+
+SQL> 
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT so_id PRIMARY KEY (orderno);
+
+Table altered.
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT c_no FOREIGN KEY (clientno) REFERENCES client(clientno);
+
+Table altered.
+
+SQL> ALTER TABLE sales_order MODIFY orderdate NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT s_no FOREIGN KEY (salesmanno) REFERENCES salesman(salesmanno);
+
+Table altered.
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT chk_pk CHECK (orderno like 'O%');
+
+Table altered.
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT chk_ord CHECK (delaydate>=orderdate);
+
+Table altered.
+
+SQL> ALTER TABLE sales_order MODIFY delaytype DEFAULT 'F';
+
+Table altered.
+
+SQL> ALTER TABLE sales_order ADD CONSTRAINT chk_dt CHECK (delaytype like 'P' OR delaytype like 'F');
+
+Table altered.
+
+SQL>
+
+SQL> ALTER TABLE sales_order_details ADD CONSTRAINT o_no FOREIGN KEY (orderno) REFERENCES sales_order(orderno);
+
+Table altered.
+
+SQL> ALTER TABLE sales_order_details ADD CONSTRAINT p_no FOREIGN KEY (productno) REFERENCES product(productno);
+
+Table altered.
+
+SQL> 
+
+SQL> SET echo off
