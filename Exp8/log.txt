@@ -1,0 +1,101 @@
+SQL> 
+SQL> SELECT first_name , employee_id from employees where salary > (select salary from employees where first_name like '%Lex%');
+
+FIRST_NAME           EMPLOYEE_ID                                                
+-------------------- -----------                                                
+Steven                       100                                                
+
+SQL> SELECT job_id from (select job_id, avg(salary) as salary from employees group by job_id) where salary = (select max(salary) from (select job_id, avg(salary) as salary from employees group by job_id));
+
+JOB_ID                                                                          
+----------------------------------------                                        
+PRESIDENT                                                                       
+
+SQL> SELECT employee_id, manager_id from employees;
+
+EMPLOYEE_ID MANAGER_ID                                                          
+----------- ----------                                                          
+        100        103                                                          
+        101        100                                                          
+        102        100                                                          
+        103        102                                                          
+        104        103                                                          
+        105        103                                                          
+        106        103                                                          
+        114        100                                                          
+        119        114                                                          
+        206        205                                                          
+
+10 rows selected.
+
+SQL> SELECT first_name, salary from employees e where e.salary > (select salary from employees m where m.employee_id = e.manager_id);
+
+FIRST_NAME               SALARY                                                 
+-------------------- ----------                                                 
+Steven                    24000                                                 
+
+SQL> SELECT first_name, salary from employees e where e.salary > (select avg(salary) from employees m where m.department_id = e.department_id);
+
+FIRST_NAME               SALARY                                                 
+-------------------- ----------                                                 
+Steven                    24000                                                 
+Alexander                  9000                                                 
+Den                       11000                                                 
+
+SQL> SELECT dname, deptno, count(employee_id) from department d inner join employees e on d.deptno = e.department_id group by deptno, dname having count(employee_id) > 1;
+
+DNAME                    DEPTNO COUNT(EMPLOYEE_ID)                              
+-------------------- ---------- ------------------                              
+Accounting                   30                  2                              
+Sales                        90                  3                              
+Research                     60                  4                              
+
+SQL> SELECT first_name, salary from employees where salary = (select min(salary) from employees where salary > (select min(salary) from employees ));
+
+FIRST_NAME               SALARY                                                 
+-------------------- ----------                                                 
+David                      4800                                                 
+Valli                      4800                                                 
+
+SQL> SELECT first_name, salary, department_id from employees e where salary = (SELECT min(salary) from employees outter where salary > (SELECT min(salary) from employees ) and e.department_id = outter.department_id);
+
+FIRST_NAME               SALARY DEPARTMENT_ID                                   
+-------------------- ---------- -------------                                   
+Neena                     17000            90                                   
+Lex                       17000            90                                   
+David                      4800            60                                   
+Valli                      4800            60                                   
+Den                       11000            30                                   
+William                    8300           110                                   
+
+6 rows selected.
+
+SQL> SELECT employee_id from employees where salary < all (select salary from employees where department_id=30);
+
+no rows selected
+
+SQL> SELECT employee_id from employees where salary < (select min(salary) from employees where department_id=60);
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        119                                                                     
+
+SQL> SELECT last_name from employees where department_id in(select department_id from Department where dname='Sales');
+
+LAST_NAME                                                                       
+-------------------------                                                       
+King                                                                            
+Kochhar                                                                         
+De Haan                                                                         
+Hunold                                                                          
+Ernst                                                                           
+Austin                                                                          
+Pataballa                                                                       
+Raphaely                                                                        
+Colmenares                                                                      
+Gietz                                                                           
+
+10 rows selected.
+
+SQL> 
+SQL> SET echo OFF

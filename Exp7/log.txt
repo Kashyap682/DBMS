@@ -1,0 +1,354 @@
+SQL> 
+SQL> CREATE TABLE Department(deptno number(6), dname varchar2(20), locations varchar2(25));
+
+Table created.
+
+SQL> INSERT INTO Department VALUES (30, 'Accounting', 'New York');
+
+1 row created.
+
+SQL> INSERT INTO Department VALUES (60, 'Research', 'Dallas');
+
+1 row created.
+
+SQL> INSERT INTO Department VALUES (90, 'Sales', 'Chicago');
+
+1 row created.
+
+SQL> INSERT INTO Department VALUES (110, 'Marketing', 'Boston');
+
+1 row created.
+
+SQL> select * from Department;
+
+    DEPTNO DNAME                LOCATIONS                                       
+---------- -------------------- -------------------------                       
+        30 Accounting           New York                                        
+        60 Research             Dallas                                          
+        90 Sales                Chicago                                         
+       110 Marketing            Boston                                          
+
+SQL> 
+SQL> SELECT deptno, employee_id, job_id, locations, first_name FROM Department INNER JOIN employees ON Department.deptno = employees.department_id where deptno = 60 or deptno = 90;
+
+    DEPTNO EMPLOYEE_ID JOB_ID                                                   
+---------- ----------- ----------------------------------------                 
+LOCATIONS                 FIRST_NAME                                            
+------------------------- --------------------                                  
+        90         100 PRESIDENT                                                
+Chicago                   Steven                                                
+                                                                                
+        90         101 VICE PRESIDENT                                           
+Chicago                   Neena                                                 
+                                                                                
+        90         102 VICE PRESIDENT                                           
+Chicago                   Lex                                                   
+                                                                                
+
+    DEPTNO EMPLOYEE_ID JOB_ID                                                   
+---------- ----------- ----------------------------------------                 
+LOCATIONS                 FIRST_NAME                                            
+------------------------- --------------------                                  
+        60         103 IT PROG                                                  
+Dallas                    Alexander                                             
+                                                                                
+        60         104 FINANCIAL MANAGER                                        
+Dallas                    Bruce                                                 
+                                                                                
+        60         105 IT PROG                                                  
+Dallas                    David                                                 
+                                                                                
+
+    DEPTNO EMPLOYEE_ID JOB_ID                                                   
+---------- ----------- ----------------------------------------                 
+LOCATIONS                 FIRST_NAME                                            
+------------------------- --------------------                                  
+        60         106 FINANCE ACCOUNTANT                                       
+Dallas                    Valli                                                 
+                                                                                
+
+7 rows selected.
+
+SQL> SELECT distinct job_id FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where deptno =60 or deptno=90;
+
+JOB_ID                                                                          
+----------------------------------------                                        
+FINANCE ACCOUNTANT                                                              
+VICE PRESIDENT                                                                  
+IT PROG                                                                         
+FINANCIAL MANAGER                                                               
+PRESIDENT                                                                       
+
+SQL> 
+SQL> SELECT job_id FROM Department INNER JOIN employees ON Department.deptno=employees.department_id
+  2  where job_id in(SELECT job_id FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where deptno=90)
+  3  and job_id not in(SELECT job_id FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where deptno=30);
+
+JOB_ID                                                                          
+----------------------------------------                                        
+PRESIDENT                                                                       
+VICE PRESIDENT                                                                  
+VICE PRESIDENT                                                                  
+
+SQL> 
+SQL> SELECT M.first_name,E.first_name,M.EMPLOYEE_ID,M.MANAGER_ID,M.DEPARTMENT_ID,E.DEPARTMENT_ID FROM employees E INNER JOIN employees M ON E.employee_id=M.manager_id where M.DEPARTMENT_ID=E.DEPARTMENT_ID;
+
+FIRST_NAME           FIRST_NAME           EMPLOYEE_ID MANAGER_ID DEPARTMENT_ID  
+-------------------- -------------------- ----------- ---------- -------------  
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+Neena                Steven                       101        100            90  
+           90                                                                   
+                                                                                
+Lex                  Steven                       102        100            90  
+           90                                                                   
+                                                                                
+Bruce                Alexander                    104        103            60  
+           60                                                                   
+                                                                                
+
+FIRST_NAME           FIRST_NAME           EMPLOYEE_ID MANAGER_ID DEPARTMENT_ID  
+-------------------- -------------------- ----------- ---------- -------------  
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+David                Alexander                    105        103            60  
+           60                                                                   
+                                                                                
+Valli                Alexander                    106        103            60  
+           60                                                                   
+                                                                                
+Karen                Den                          119        114            30  
+           30                                                                   
+                                                                                
+
+6 rows selected.
+
+SQL> SELECT * from employees where job_id in ('ACCOUNTANT' , 'IT PROG') and extract (year from (hire_date))<2015;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        105 David                Austin                                         
+DAUSTIN                   590.423.4569         17-SEP-01                        
+IT PROG                                        4800              0        103   
+           60                                                                   
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE                        
+------------------------- -------------------- ---------                        
+JOB_ID                                       SALARY COMMISSION_PCT MANAGER_ID   
+---------------------------------------- ---------- -------------- ----------   
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+        206 William              Gietz                                          
+WGIETZ                    515.123.8181         06-JUL-05                        
+ACCOUNTANT                                     8300                       205   
+          110                                                                   
+                                                                                
+
+SQL> 
+SQL> SELECT dname,employee_id,job_id,location,first_name FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where employee_id in (select manager_id from employees);
+SELECT dname,employee_id,job_id,location,first_name FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where employee_id in (select manager_id from employees)
+                                *
+ERROR at line 1:
+ORA-00904: "LOCATION": invalid identifier 
+
+
+SQL> SELECT dname,employee_id,job_id,location,first_name FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where manager_id=100;
+SELECT dname,employee_id,job_id,location,first_name FROM Department INNER JOIN employees ON Department.deptno=employees.department_id where manager_id=100
+                                *
+ERROR at line 1:
+ORA-00904: "LOCATION": invalid identifier 
+
+
+SQL> 
+SQL> SELECT employee_id,salary from employees where first_name = 'Steven' and salary>=(SELECT max(salary) FROM employees GROUP BY department_id having department_id=(select department_id from employees where first_name='Steven'));
+
+EMPLOYEE_ID     SALARY                                                          
+----------- ----------                                                          
+        100      24000                                                          
+
+SQL> SELECT first_name,job_id,salary from employees  where job_id != 'CLERK' order by salary desc;
+
+FIRST_NAME           JOB_ID                                       SALARY        
+-------------------- ---------------------------------------- ----------        
+Steven               PRESIDENT                                     24000        
+Neena                VICE PRESIDENT                                17000        
+Lex                  VICE PRESIDENT                                17000        
+Den                  SALES CLERK                                   11000        
+Alexander            IT PROG                                        9000        
+William              ACCOUNTANT                                     8300        
+Bruce                FINANCIAL MANAGER                              6000        
+David                IT PROG                                        4800        
+Valli                FINANCE ACCOUNTANT                             4800        
+
+9 rows selected.
+
+SQL> SELECT first_name,employee_id,manager_id from employees where manager_id is NULL;
+
+no rows selected
+
+SQL> SELECT first_name, last_name from employees where salary = (SELECT MAX(salary) from employees);
+
+FIRST_NAME           LAST_NAME                                                  
+-------------------- -------------------------                                  
+Steven               King                                                       
+
+SQL> 
+SQL> SELECT first_name, last_name FROM employees WHERE salary = (SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees));
+
+FIRST_NAME           LAST_NAME                                                  
+-------------------- -------------------------                                  
+Neena                Kochhar                                                    
+Lex                  De Haan                                                    
+
+SQL> SELECT first_name, last_name,salary FROM employees WHERE salary = (SELECT (MAX(salary) + MIN(salary)) / 2 FROM employees);
+
+no rows selected
+
+SQL> 
+SQL> SELECT d.dname AS department_name, COUNT(e.EMPLOYEE_ID) AS employee_count FROM Department d JOIN employees e ON d.deptno = e.department_id GROUP BY d.dname HAVING COUNT(e.EMPLOYEE_ID) >= 3;
+
+DEPARTMENT_NAME      EMPLOYEE_COUNT                                             
+-------------------- --------------                                             
+Research                          4                                             
+Sales                             3                                             
+
+SQL> SELECT d.dname AS department_name FROM Department d JOIN employees e ON d.deptno = e.department_id GROUP BY d.dname HAVING COUNT(e.EMPLOYEE_ID) >= 2;
+
+DEPARTMENT_NAME                                                                 
+--------------------                                                            
+Research                                                                        
+Accounting                                                                      
+Sales                                                                           
+
+SQL> SELECT first_name, last_name,employee_id,salary FROM employees WHERE employee_id IN (SELECT DISTINCT manager_id FROM employees) and salary>=(select avg(salary) from employees);
+
+FIRST_NAME           LAST_NAME                 EMPLOYEE_ID     SALARY           
+-------------------- ------------------------- ----------- ----------           
+Steven               King                              100      24000           
+Lex                  De Haan                           102      17000           
+Den                  Raphaely                          114      11000           
+
+SQL> 
+SQL> SELECT first_name, last_name, salary FROM (SELECT first_name, last_name, salary FROM employees ORDER BY salary DESC) WHERE ROWNUM <= 3;
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+Steven               King                           24000                       
+Neena                Kochhar                        17000                       
+Lex                  De Haan                        17000                       
+
+SQL> SELECT first_name, last_name, salary FROM (SELECT first_name, last_name, salary FROM employees ORDER BY salary ASC) WHERE ROWNUM <= 3;
+
+FIRST_NAME           LAST_NAME                     SALARY                       
+-------------------- ------------------------- ----------                       
+Karen                Colmenares                      2500                       
+David                Austin                          4800                       
+Valli                Pataballa                       4800                       
+
+SQL> 
+SQL> SELECT e.first_name AS "Employee First Name", e.job_id AS "Job", d.dname AS "Department Name", m.first_name AS "Manager First Name", e.salary AS "Salary" FROM employees e JOIN Department d ON e.department_id = d.deptno LEFT JOIN employees m ON e.manager_id = m.employee_id ORDER BY e.salary;
+
+Employee First Name  Job                                                        
+-------------------- ----------------------------------------                   
+Department Name      Manager First Name       Salary                            
+-------------------- -------------------- ----------                            
+Karen                CLERK                                                      
+Accounting           Den                        2500                            
+                                                                                
+Valli                FINANCE ACCOUNTANT                                         
+Research             Alexander                  4800                            
+                                                                                
+David                IT PROG                                                    
+Research             Alexander                  4800                            
+                                                                                
+
+Employee First Name  Job                                                        
+-------------------- ----------------------------------------                   
+Department Name      Manager First Name       Salary                            
+-------------------- -------------------- ----------                            
+Bruce                FINANCIAL MANAGER                                          
+Research             Alexander                  6000                            
+                                                                                
+William              ACCOUNTANT                                                 
+Marketing                                       8300                            
+                                                                                
+Alexander            IT PROG                                                    
+Research             Lex                        9000                            
+                                                                                
+
+Employee First Name  Job                                                        
+-------------------- ----------------------------------------                   
+Department Name      Manager First Name       Salary                            
+-------------------- -------------------- ----------                            
+Den                  SALES CLERK                                                
+Accounting           Steven                    11000                            
+                                                                                
+Neena                VICE PRESIDENT                                             
+Sales                Steven                    17000                            
+                                                                                
+Lex                  VICE PRESIDENT                                             
+Sales                Steven                    17000                            
+                                                                                
+
+Employee First Name  Job                                                        
+-------------------- ----------------------------------------                   
+Department Name      Manager First Name       Salary                            
+-------------------- -------------------- ----------                            
+Steven               PRESIDENT                                                  
+Sales                Alexander                 24000                            
+                                                                                
+
+10 rows selected.
+
+SQL> SELECT first_name,dname from employees inner join Department on employees.department_id=Department.deptno where not dname='Sales';
+
+FIRST_NAME           DNAME                                                      
+-------------------- --------------------                                       
+Alexander            Research                                                   
+Bruce                Research                                                   
+David                Research                                                   
+Valli                Research                                                   
+Den                  Accounting                                                 
+Karen                Accounting                                                 
+William              Marketing                                                  
+
+7 rows selected.
+
+SQL> SELECT job_id, AVG(salary) FROM employees GROUP BY job_id;
+
+JOB_ID                                   AVG(SALARY)                            
+---------------------------------------- -----------                            
+FINANCE ACCOUNTANT                              4800                            
+ACCOUNTANT                                      8300                            
+VICE PRESIDENT                                 17000                            
+IT PROG                                         6900                            
+FINANCIAL MANAGER                               6000                            
+SALES CLERK                                    11000                            
+CLERK                                           2500                            
+PRESIDENT                                      24000                            
+
+8 rows selected.
+
+SQL> SELECT dname FROM Department JOIN employees ON Department.deptno = employees.department_id WHERE employees.salary = (SELECT MAX(salary) FROM employees);
+
+DNAME                                                                           
+--------------------                                                            
+Sales                                                                           
+
+SQL> SELECT dname FROM Department JOIN employees ON Department.deptno = employees.department_id WHERE employees.salary = (SELECT min(salary) FROM employees);
+
+DNAME                                                                           
+--------------------                                                            
+Accounting                                                                      
+
+SQL> 
+SQL> SET echo OFF
